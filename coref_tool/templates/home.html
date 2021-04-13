@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form method="post">
+        <p>Task ID:
+            <input type="number" name="sentence_id" id="sentence_id" size=8 min=0 max=170054 value={{ task_id }}>
+            <input type="submit" name="set_sentence" id="set_sentence" size=6 value="save&go"><br>
+        </p>
+    </form>
+
+    <div class="sentence" title="source: {{task.query.source}}, doc_id: {{task.query.doc_id}}">
+        {{ task.query.sentence.split()[: task.query.trigger_id.split('_')[1]|int]|join(" ") }}
+        <span style="color:green">{{ task.query.sentence.split()[task.query.trigger_id.split('_')[1]|int : task.query.trigger_id.split('_')[2]|int +1 ]|join(" ") }}</span>
+        {{ task.query.sentence.split()[task.query.trigger_id.split('_')[2]|int+1 :]|join(" ") }}
+    </div>
+
+    <form method="post">
+        {% for candidate in task.candidates %}
+            <div id="event" onclick="showArticle(`{{candidate.source}}`, `{{candidate.doc_id}}`, `{{candidate.sentence}}`);">
+                <li class="list-group-item clearfix">
+                    <span class="sentence" title="source: {{candidate.source}}, doc_id: {{candidate.doc_id}}">
+                        {{ candidate.sentence.split()[: candidate.trigger_id.split('_')[1]|int]|join(" ") }}
+                        <span style="color:green">{{ candidate.sentence.split()[candidate.trigger_id.split('_')[1]|int : candidate.trigger_id.split('_')[2]|int +1 ]|join(" ") }}</span>
+                        {{ candidate.sentence.split()[candidate.trigger_id.split('_')[2]|int+1 :]|join(" ") }}
+                    </span>
+                    <span class="pull-right">
+                        <input type="checkbox" name="pair" id="pair" size=6 value={{loop.index}}>
+                        <label for="pair">O</label>
+                        <input type="checkbox" name="non-pair" id="non-pair" size=6 value={{loop.index}}>
+                        <label for="non-pair">X</label>
+                    </span>
+                </li>
+            </div>
+        {% endfor %}
+        <input type="submit" name="save_annot" id="save_annot" size=6 value="save"><br>
+    </form>
+
+
+<br>
+<br>
+{% endblock content %}
+
+{% block content2 %}
+    <div class="content-section" style="height: auto; overflow-y: scroll; max-height: 1000px;">
+        <h3>Article</h3>
+            Source:
+          <p class='text-muted' id="source"></p>
+            Doc_id:
+          <p class="text-muted" id="doc_id"></p>
+          <p id="article"></p>
+    </div>
+{% endblock content2 %}
+
+

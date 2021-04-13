@@ -64,15 +64,16 @@ $(document).ready(function(){
         });
     };
 });
-function showArticle(source, doc_id, sentence){
-    fetch(`/`, {
+function showArticle(article_id, sentence, task_id){
+    console.log(article_id);
+    fetch(`/annotate/${task_id}`, {
         method: 'POST',
-        body: JSON.stringify({"clicked_source": source, "clicked_doc_id": doc_id})
+        body: JSON.stringify({"clicked_article_id": article_id})
     }).then(function (response) {
         return response.json();
     }).then(function (data) {
-        document.getElementById('doc_id').innerText = doc_id;
-        document.getElementById('source').innerText = source;
+        document.getElementById('doc_id').innerText = data['clicked_doc_id'];
+        document.getElementById('source').innerText = data['clicked_source'];
         document.getElementById('article').innerText = data['clicked_article'];
     }).catch(function(error){
         console.log("Fetch error: "+ error);

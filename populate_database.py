@@ -99,7 +99,6 @@ def populate_task_database():
             task_row = Task(task_id=i, trigger=task_dict['query']['trigger'], candidates=" ".join([candidate['query_id'] for candidate in task_dict['candidates']]))
             db.session.add(task_row)
             db.session.commit()
-            break
 
 
 def output_trigger_tasks():

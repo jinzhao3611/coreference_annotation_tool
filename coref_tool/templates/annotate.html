@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-{#    <form method="post">#}
-{#        <p>Task ID:#}
-{#            <input type="number" name="sentence_id" id="sentence_id" size=8 min=0 max=170054 value={{ task_id }}>#}
-{#            <input type="submit" name="set_sentence" id="set_sentence" size=6 value="save&go"><br>#}
-{#        </p>#}
-{#    </form>#}
+    <form method="post">
+        <p>Task ID:
+            <input type="number" name="sentence_id" id="sentence_id" size=8 min=0 max=170054 value={{ task_id }}>
+            <input type="submit" name="set_sentence" id="set_sentence" size=6 value="save&go"><br>
+        </p>
+    </form>
 
     <div class="sentence" title="source: {{query_info.article_id}}">
         {{ query_info.sentence.split()[: query_info.trigger_id.split('_')[1]|int]|join(" ") }}

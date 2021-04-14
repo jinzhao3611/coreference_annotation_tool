@@ -82,6 +82,25 @@ function showArticle(article_id, sentence, task_id){
     $('#article').bind('DOMSubtreeModified', function(){
         $('#article').highlight(sentence, {element: 'span', className:'text-danger'});
     });
+}
+
+function showArticleInDisplay(article_id, sentence){
+    fetch(`/display`, {
+        method: 'POST',
+        body: JSON.stringify({"clicked_article_id": article_id})
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        document.getElementById('doc_id').innerText = data['clicked_doc_id'];
+        document.getElementById('source').innerText = data['clicked_source'];
+        document.getElementById('article').innerText = data['clicked_article'];
+    }).catch(function(error){
+        console.log("Fetch error: "+ error);
+    });
+
+    $('#article').bind('DOMSubtreeModified', function(){
+        $('#article').highlight(sentence, {element: 'span', className:'text-danger'});
+    });
 
 }
 

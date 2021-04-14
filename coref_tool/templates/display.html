@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    {% for coref_pair in coref_pairs %}
+        <ul>
+            <li class="list-group-item">
+                <span class="sentence" title="source: {{coref_pair[0].article_id}}" onclick="showArticleInDisplay(`{{coref_pair[0].article_id}}`, `{{coref_pair[0].sentence}}`);">
+                    {{ coref_pair[0].sentence.split()[: coref_pair[0].trigger_id.split('_')[1]|int]|join(" ") }}
+                    <span style="color:green">{{ coref_pair[0].sentence.split()[coref_pair[0].trigger_id.split('_')[1]|int : coref_pair[0].trigger_id.split('_')[2]|int +1 ]|join(" ") }}</span>
+                    {{ coref_pair[0].sentence.split()[coref_pair[0].trigger_id.split('_')[2]|int+1 :]|join(" ") }}
+                </span>
+            </li>
+            <li class="list-group-item">
+                <span class="sentence" title="source: {{coref_pair[1].article_id}}" onclick="showArticleInDisplay(`{{coref_pair[1].article_id}}`, `{{coref_pair[1].sentence}}`);">
+                    {{ coref_pair[1].sentence.split()[: coref_pair[1].trigger_id.split('_')[1]|int]|join(" ") }}
+                    <span style="color:green">{{ coref_pair[1].sentence.split()[coref_pair[1].trigger_id.split('_')[1]|int : coref_pair[1].trigger_id.split('_')[2]|int +1 ]|join(" ") }}</span>
+                    {{ coref_pair[1].sentence.split()[coref_pair[1].trigger_id.split('_')[2]|int+1 :]|join(" ") }}
+                </span>
+            </li>
+        </ul>
+    {% endfor %}
+
+{% endblock content %}
+
+{% block content2 %}
+    <div class="content-section" style="height: auto; overflow-y: scroll; max-height: 1000px;">
+        <h3>Article</h3>
+            Source:
+          <p class='text-muted' id="source"></p>
+            Doc_id:
+          <p class="text-muted" id="doc_id"></p>
+          <p id="article"></p>
+    </div>
+{% endblock content2 %}
+
+
